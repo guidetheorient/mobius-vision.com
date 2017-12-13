@@ -21,7 +21,7 @@ gulp.task('dist:html', ['dist:css','dist:js'], function(){
   };
   del(['dist/*.html']);
   return gulp
-          .src('src/*.html')
+          .src('src/index.html')
           .pipe(useref())
           // .pipe(htmlmin(options))
           .pipe(gulp.dest('dist'))
@@ -52,6 +52,7 @@ gulp.task('dist:css', ['lib:css'], function(){
           .pipe(gulp.dest('dist/css'))
           .pipe(rev.manifest())
           .pipe(gulp.dest('dist/rev/css'))
+          // .pipe(reload({stream:true}))
 })
 
 gulp.task('lib:css', function(){
@@ -81,6 +82,7 @@ gulp.task('dist:js', ['lib:js'], function(){
           .pipe(gulp.dest('dist/js'))
           .pipe(rev.manifest())
           .pipe(gulp.dest('dist/rev/js'))
+          // .pipe(reload({stream:true}))
 })
 
 gulp.task('lib:js', function(){
@@ -89,6 +91,7 @@ gulp.task('lib:js', function(){
           .src('src/js/lib/*.js')
           .pipe(concat('vendor.js'))
           .pipe(gulp.dest('dist/js/lib'))
+          // .pipe(reload({stream:true}))
 })
 
 //assets
@@ -96,6 +99,7 @@ gulp.task('copyAssets', function(){
   return gulp
           .src('src/assets/**/*')
           .pipe(gulp.dest('dist/assets'))
+          // .pipe(reload({stream:true}))
 })
 
 //html 路径替换
@@ -108,23 +112,25 @@ gulp.task('rev',['dist:html'], function(){
             replaceReved: true
           }))
           .pipe(gulp.dest('dist'))
+          // .pipe(reload({stream:true}))
 })
 
 //browser-sync
 const browserSync = require('browser-sync').create();
+const reload = browserSync.reload;
 
-gulp.task('server', function(){
-  const files = ['dist/**/*'];
-  browserSync.init(files, {
-    server: {
-      baseDir: './dist'
-    }
-  })
-  gulp.watch('src/index.html', ['dist:html']);
-  gulp.watch('src/css/*.scss', ['dist:css']);
-  gulp.watch('src/js/*.js', ['dist:js']);
+gulp.task('server',['rev'], function(){
+  // const files = ['dist/**/*'];
+  // browserSync.init({
+  //   server: {
+  //     baseDir: './dist'
+  //   }
+  // })
+  gulp.watch(['src/index.html','src/css/*.scss','src/js/*.js'], ['rev']);
   
   gulp.watch('src/assets/**/*', ['copyAssets']);
   gulp.watch('src/css/lib/**/*', ['lib:css']);
   gulp.watch('src/js/lib/**/*', ['lib:js']);
+  
+  // browserSync.watch('dist/**/*').on('change', browserSync.reload)
 })
