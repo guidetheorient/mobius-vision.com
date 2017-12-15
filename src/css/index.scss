@@ -3,10 +3,7 @@ $bgcolor:#272833;
 /*arrow-down*/
 %icon-arrow-down {
   .down-btn {
-    position: absolute;
-    left: 50%;
-    bottom: 0.75em;
-    transform: translateX(-50%);
+    margin-bottom: 0.75em;
     padding: 30px 50px 0;
     text-align: center;
     .icon {
@@ -14,12 +11,23 @@ $bgcolor:#272833;
       font-size: 44px;
     }
   }
+  @media screen and (max-width:991.99px){
+    .down-btn {
+      flex: none;
+      text-align: center;
+      .icon {
+        display: inline-block;
+        font-size: 44px;
+      }
+    } 
+  }
 }
 
 /*更多信息按钮*/
 %info-btn {
   .btn {
     display: inline-block;
+    text-align: center;
     padding: 0 2.25em;
     line-height: 3em;
     height: 3em;
@@ -44,6 +52,11 @@ $bgcolor:#272833;
       background-image: url('../assets/img/overlay.png');
     }
   }
+}
+/*移动端border统一为top*/
+@mixin border-mobile($color){
+  border: none;
+  border-top: 5px solid $color; 
 }
 
 %text-common{
@@ -76,16 +89,13 @@ $bgcolor:#272833;
       color: #fff;
     }
   }
-  @media screen and (max-width: 575.99px){
+  @media screen and (max-width: 991.99px){
     h2{
       margin-bottom: 1.54rem;
       font-size: 1.5rem;
     }
     p.desc{
       font-size: 1rem;
-    }
-    .quote{
-      margin: 0;
     }
   }
 }
@@ -95,7 +105,7 @@ body {
   height: 100%;
   color: #fff;
   font-size: 16px;
-  @media screen and (max-width: 575.99px){
+  @media screen and (max-width: 991.99px){
     // font-size: 12px;
   }    
 }
@@ -111,10 +121,13 @@ body {
 
 #one {
   position: relative;
-  justify-content: center;
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   @include bg('');
   .header {
+    flex: none;
     display: flex;
     justify-content: space-between;
     padding-left: 24px;
@@ -159,11 +172,12 @@ body {
     }
   }
   div.content {
+    flex: none;
     padding-right: 6.5rem;
     padding-bottom: 3.75rem;
     text-align: right;
     &>h2 {
-      margin-bottom: 10px;
+      margin-bottom: 0.625rem;
       font-size: 2.5rem;
       font-weight: 300;
     }
@@ -173,7 +187,10 @@ body {
       font-weight: 300;
     }
     &>.logo {
+      margin-top: 1rem;
       img {
+        height: 18rem;
+        width: 18rem;
         display: inline-block;
         border-radius: 50%;
       }
@@ -181,8 +198,7 @@ body {
   }
   @extend %icon-arrow-down
 }
-
-@media screen and (max-width: 575.99px) {
+@media screen and (max-width: 991.99px) {
   #one{
     div.content{
       display: flex;
@@ -201,6 +217,7 @@ body {
         }
       }
       &>.logo {
+        margin-top: 2rem;
         img {
           height: 9rem;
           width: 9rem;
@@ -222,7 +239,7 @@ body {
   .content {
     position: absolute;
     bottom: 0;
-    padding: 3rem 3.75rem 3.75rem;
+    padding: 3rem 3.75rem 1rem;
     border-top: 5px solid #e44c65;
     background-color: rgba(23, 24, 32, 0.95);
     .item {
@@ -233,9 +250,10 @@ body {
     @extend %text-common;
   }
 }
-@media screen and (max-width: 575.99px){
+@media screen and (max-width: 991.99px){
   #two{
     height: auto;
+    overflow: auto;
     text-align: center;
     .bg{
       display: none;
@@ -251,8 +269,18 @@ body {
       flex-direction: column;
       align-items: center;
       position: static;
+      margin: 0;
       padding-left: 0;
       padding-right: 0;
+      .item{
+        flex: 0 0 auto;
+        .btn{
+          display: block;
+        }
+      }
+    }
+    .down-btn{
+      display: none;
     }
   }
 }
@@ -261,14 +289,23 @@ body {
   position: relative;
   overflow: hidden;
   @include bg('../assets/img/pic04.png');
+  .bg-mobile{
+    display: none;
+  }
   .content {
+    flex: 1;
     position: absolute;
     right: 0;
     top: 0;
     bottom: 0;
-    width: 400px;
+    width: 30rem;
+    margin: 0;
+    padding: 6rem 3rem;
     background-color: rgba(23, 24, 32, .95);
-    border-left: 5px solid #39c088;
+    border-left: 5px solid #5480f1;
+    @extend %info-btn;
+    @extend %icon-arrow-down;
+    @extend %text-common;
   }
 }
 
@@ -276,14 +313,64 @@ body {
   position: relative;
   overflow: hidden;
   @include bg('../assets/img/pic03.gif');
+  .bg-mobile{
+    display: none;
+  }
   .content {
+    flex: 1;
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 400px;
+    width: 30rem;
+    margin: 0;
+    padding: 6rem 3rem;
     background-color: rgba(23, 24, 32, .95);
-    border-right: 5px solid #5480f1;
+    border-right: 5px solid #39c088;
+    @extend %info-btn;
+    @extend %icon-arrow-down;
+    @extend %text-common;
+  }
+}
+@media screen and (max-width: 991.99px){
+  #three,
+  #four{
+    height: auto;
+    overflow: auto;
+    text-align: center;
+    justify-content: center;
+    .bg{
+      display: none;
+    }
+    .bg-mobile{
+      display: block;
+      /*解决图片在flex中被拉伸*/
+      height: 100%;
+      width: 100%;
+    }
+    .content{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: static;
+      padding: 3.5rem 0;
+      .btn{
+        display: block;
+      }
+    }
+    .down-btn{
+      display: none;
+    }
+  }
+  #three{
+    .content{
+      @include border-mobile(#5480f1)
+    }
+  }
+  #four{
+    .content{
+      @include border-mobile(#39c088)
+    }
   }
 }
 
@@ -299,11 +386,14 @@ body {
       padding-bottom: 40px;
       .title {
         padding-bottom: 20px;
-        font-size: 32px;
+        font-size: 1.5rem;
+        font-weight: 300;
       }
       .desc {
         display: inline-block;
-        font-size: 20px;
+        line-height: 1.75;
+        font-size: 1.25rem;
+        font-weight: 300;   
         &:after {
           content: '';
           display: inline-block;
@@ -328,16 +418,49 @@ body {
       }
       .title {
         padding: 20px 0 20px 0;
-        font-size: 22px;
+        font-size: 1.35rem;
       }
       .desc {
-        line-height: 1.5;
-        font-size: 15px;
+        line-height: 1.75;
+        font-size: 1rem;
         font-weight: 300;
         color: rgba($color: #fff, $alpha: 0.75);
       }
     }
     @extend %info-btn;
+    .btn-wrapper{
+      text-align: center;
+    }
+  }
+}
+@media screen and (max-width:991.99px){
+  #five{
+    height: auto;
+    padding: 3.5rem 0;
+    .content{
+      padding-left: 0;
+      padding-right: 0; 
+      .title-wrapper{
+        .title{
+          line-height: 1.5;
+          font-size: 1.5rem;
+          letter-spacing: -0.025em;
+        }
+        .desc{
+          font-size: 1rem;
+        }
+      }
+      .label-wrapper{
+        padding: 2.5rem 0 0 0;
+        .title{
+          font-size: 1.2rem;
+        }
+      }
+      .btn{
+        display: block;
+        margin-top: 2rem;        
+      }
+    }
   }
 }
 
@@ -354,20 +477,47 @@ body {
       padding-bottom: 40px;
       .title {
         padding-bottom: 20px;
-        font-size: 32px;
+        font-size: 1.5rem;
+        font-weight: 300;
       }
       .desc {
         display: inline-block;
-        font-size: 20px;
+        line-height: 1.75;
+        font-size: 1.25rem;
+        font-weight: 300;
       }
     }
     .partner {
       .logo-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding-bottom: 20px;
-        position: relative;
-        text-align: center;
         img {
           width: 70%;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width:991.99px){
+  #six{
+    padding: 3rem 0 1rem;
+    .content{
+      .title-wrapper{
+        .title{
+          line-height: 1.5;
+          font-size: 1.5rem;
+          letter-spacing: -0.025em;
+        }
+        .desc{
+          font-size: 1rem;
+        }
+      }
+      .partner{
+        .logo-wrapper{
+          img{
+          }
         }
       }
     }
@@ -385,7 +535,7 @@ body {
     text-align: center;
     .icon {
       display: inline-block;
-      font-size: 30px;
+      font-size: 1.75rem;
       margin-bottom: 15px;
     }
   }
@@ -398,9 +548,22 @@ body {
       line-height: 12px;
       font-size: 12px;
       border-right: 1px solid;
+      font-weight: 100;
       &:last-child {
         border: none;
       }
     }
+  }
+}
+@media screen and (max-width:991.99px){
+  #seven{
+    padding: 3rem 0;
+    .copyright{
+      span{
+        line-height: 2em;
+        font-size: 0.85rem;
+        border: none;
+      }
+    }    
   }
 }
