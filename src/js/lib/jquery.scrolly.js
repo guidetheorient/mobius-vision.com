@@ -39,6 +39,7 @@
     this.height = this.$element.outerHeight(true);
     this.velocity = this.$element.attr('data-velocity');
     this.bgStart = parseInt(this.$element.attr('data-fit'), 10);
+    this.previousScrollTop = $(window).scrollTop();
 
     $(document).scroll(function(){
       self.didScroll = true;
@@ -63,7 +64,11 @@
       if(this.$element.hasClass('scrolly-invisible')){
         position = this.startPosition + (dT + ( wH - this.offsetTop ) ) * this.velocity;
       } else {
-        position = this.startPosition + dT  * this.velocity;
+        // 一个小bug
+        // 当页面刷新位置scrollTop !== 0时，第一次滚动背景图片会跳动一次
+        // 实际应该以$(window).scrollTop()减去初始化时页面已滚动高度
+        // 原代码 position = this.startPosition + dT * this.velocity;
+        position = this.startPosition + (dT-this.previousScrollTop)  * this.velocity;
       }
     }
     // Fix background position
