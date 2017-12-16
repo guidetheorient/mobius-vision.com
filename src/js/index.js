@@ -40,6 +40,7 @@
       })
     
       // 视差滚动
+      // $('.parallax-test').scrolly({bgParallax:true});
       $('.parallax').each(function(){
         $(this).scrolly({bgParallax:true})
       })
